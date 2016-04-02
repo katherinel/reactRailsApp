@@ -25,17 +25,23 @@
 		@debits() + @credits()
 	
 	addRecord: (record) ->
-		records = @state.records.slice() # records is an array of objects
-		records.push record # record is a single object
+		# records = @state.records.slice() # records is an array of objects
+		# records.push record # record is a single object
+		# changing the above to use the state helper below:
+		records = React.addons.update(@state.records, { $push: [record] })
 		@setState records: records
-		# the main difference between setState and replaceState is that the first one will only update one key of the state object, the second one will completely override the current state of the component with whatever new object we send
 
 	deleteRecord: (record) ->
-		records = @state.records.slice()
-		index = records.indexOf record
-		records.splice index, 1
+		# records = @state.records.slice()
+		# index = records.indexOf record
+		# records.splice index, 1
+		# use the state helper:
+		index = @state.records.indexOf record # not sure why we had to add @state here
+		console.log(@state);
+		records = React.addons.update(@state.records, { $splice: [[index, 1]] })
 		@replaceState records: records
-	
+		# the main difference between setState and replaceState is that the first one will only update one key of the state object, the second one will completely override the current state of the component with whatever new object we send
+
 	render: ->
 		React.DOM.div
 			className: 'records'
