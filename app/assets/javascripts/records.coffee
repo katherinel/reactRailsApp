@@ -28,6 +28,13 @@
 		records = @state.records.slice() # records is an array of objects
 		records.push record # record is a single object
 		@setState records: records
+		# the main difference between setState and replaceState is that the first one will only update one key of the state object, the second one will completely override the current state of the component with whatever new object we send
+
+	deleteRecord: (record) ->
+		records = @state.records.slice()
+		index = records.indexOf record
+		records.splice index, 1
+		@replaceState records: records
 	
 	render: ->
 		React.DOM.div
@@ -49,6 +56,7 @@
 						React.DOM.th null, 'Date',
 						React.DOM.th null, 'Title',
 						React.DOM.th null, 'Amount'
+						React.DOM.th null, 'Actions'
 				React.DOM.tbody null,
 					for record in @state.records # @state comes from getInitialState I think?
-						React.createElement Record, key: record.id, record: record # create new instance of Record as defined in record.coffee
+						React.createElement Record, key: record.id, record: record, handleDeleteRecord: @deleteRecord # create new instance of Record as defined in record.coffee
