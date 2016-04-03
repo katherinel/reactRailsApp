@@ -15,6 +15,24 @@
 			success: () =>
 				@props.handleDeleteRecord @props.record
 	
+	handleEdit: (e) ->
+		e.preventDefault()
+		data =
+			# not validating user data, just reading it through here:
+			title: React.findDOMNode(@refs.title).value
+			date: React.findDOMNode(@refs.date).value
+			amount: React.findDOMNode(@refs.amount).value
+		# no jquery $.put shortcut method either
+		$.ajax
+			method: 'PUT'
+			url: "/records/#{ @props.record.id }"
+			dataType: 'JSON'
+			data:
+				record: data
+			success: (data) =>
+				@setState edit: false
+				@props.handleEditRecord @props.record, data
+
 	# moved out of render
 	# two different states: read only (recordRow) or edit (recordForm)
 	# can toggle back and forth depending on the @state.edit

@@ -42,6 +42,12 @@
 		@replaceState records: records
 		# the main difference between setState and replaceState is that the first one will only update one key of the state object, the second one will completely override the current state of the component with whatever new object we send
 
+	updateRecord: (record, data) ->
+		# update the state on the Records component to overwrite the former record with the newer version of the child record
+		index = @state.records.indexOf record
+		records = React.addons.update(@state.records, { $splice: [[index, 1, data]] })
+		@replaceState records: records
+
 	render: ->
 		React.DOM.div
 			className: 'records'
@@ -65,4 +71,4 @@
 						React.DOM.th null, 'Actions'
 				React.DOM.tbody null,
 					for record in @state.records # @state comes from getInitialState I think?
-						React.createElement Record, key: record.id, record: record, handleDeleteRecord: @deleteRecord # create new instance of Record as defined in record.coffee
+						React.createElement Record, key: record.id, record: record, handleDeleteRecord: @deleteRecord, handleEditRecord: @updateRecord # create new instance of Record as defined in record.coffee
