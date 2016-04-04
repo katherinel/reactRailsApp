@@ -1,6 +1,7 @@
 @Record = React.createClass
 	getInitialState: ->
 		edit: false
+		errors: null
 
 	handleToggle: (e) ->
 		e.preventDefault()
@@ -32,6 +33,8 @@
 			success: (data) =>
 				@setState edit: false
 				@props.handleEditRecord @props.record, data
+			error: (data) =>
+				@setState errors: data.responseText
 
 	# moved out of render
 	# two different states: read only (recordRow) or edit (recordForm)
@@ -55,6 +58,9 @@
 					# 2. Perform an action (send a DELETE request to the server in this case)
 					# 3. Notify the parent Records component about this action (sending/receiving a handler method through props)
 					# 4. Update the Record component's state
+
+	recordErrors: ->
+		@state.errors
 
 	recordForm: ->
 		React.DOM.tr null,
@@ -87,6 +93,9 @@
 					className: 'btn btn-danger'
 					onClick: @handleToggle
 					'Cancel'
+				React.DOM.div
+					className: 'error-msgs'
+					@recordErrors()
 
 	render: ->
 		if @state.edit
