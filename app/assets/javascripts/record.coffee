@@ -31,10 +31,11 @@
 			data:
 				record: data
 			success: (data) =>
-				@setState edit: false
+				@setState { edit: false, errors: null }
 				@props.handleEditRecord @props.record, data
 			error: (data) =>
-				@setState errors: data.responseText
+				errorData = $.parseJSON(data.responseText);
+				@setState errors: errorData
 
 	# moved out of render
 	# two different states: read only (recordRow) or edit (recordForm)
@@ -60,7 +61,11 @@
 					# 4. Update the Record component's state
 
 	recordErrors: ->
-		@state.errors
+		rows = [];
+		for key of @state.errors
+			@state.errors[key].forEach (val) -> 
+				rows.push( React.DOM.p null, "#{ key }: #{ val }" );
+		return rows;
 
 	recordForm: ->
 		React.DOM.tr null,
