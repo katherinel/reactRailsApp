@@ -34,6 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'react-rails',  '~> 1.6.0'
+gem 'browserify-rails', '~> 3.0.1'
 gem 'haml'
 
 group :development, :test do
