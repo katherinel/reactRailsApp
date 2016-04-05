@@ -60,10 +60,17 @@
 					# 2. Perform an action (send a DELETE request to the server in this case)
 					# 3. Notify the parent Records component about this action (sending/receiving a handler method through props)
 					# 4. Update the Record component's state
+	recordFormClassName: (key) ->
+		str = 'form-group'
+		if (@state.errors != null) && (@state.errors[key] != undefined) 
+			"#{ str } has-error";
+		else
+			str;
 
 	recordForm: ->
 		React.DOM.tr null,
-			React.DOM.td null,
+			React.DOM.td
+				className: @recordFormClassName('date')
 				React.DOM.input
 					className: 'form-control'
 					type: 'text'
@@ -71,13 +78,15 @@
 					# We are using defaultValue instead of value to set the initial input values, this is because using just 
 					# value without onChange will end up creating read-only inputs.
 					ref: 'date'
-			React.DOM.td null,
+			React.DOM.td
+				className: @recordFormClassName('title')
 				React.DOM.input
 					className: 'form-control'
 					type: 'text'
 					defaultValue: @props.record.title
 					ref: 'title'
-			React.DOM.td null,
+			React.DOM.td
+				className: @recordFormClassName('amount')
 				React.DOM.input
 					className: 'form-control'
 					type: 'number'
