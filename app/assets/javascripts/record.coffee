@@ -5,6 +5,7 @@
 
 	handleToggle: (e) ->
 		e.preventDefault()
+		@replaceState { errors: (null if @state.edit is false) }
 		@setState edit: !@state.edit
 
 	handleDelete: (e) -> # built-in to the click
