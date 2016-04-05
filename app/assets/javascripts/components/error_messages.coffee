@@ -2,10 +2,10 @@
 	recordErrors: (jsonData) ->
 		rows = [];
 		for key of jsonData
-			jsonData[key].forEach (val, index) -> 
+			jsonData[key].forEach (val) -> 
 				rows.push(
 					React.DOM.div 
-						key: index
+						key: key
 						"#{ key }: #{ val }"
 				);
 		return rows;
