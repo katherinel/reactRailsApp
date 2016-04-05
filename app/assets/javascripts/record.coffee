@@ -60,13 +60,6 @@
 					# 3. Notify the parent Records component about this action (sending/receiving a handler method through props)
 					# 4. Update the Record component's state
 
-	recordErrors: ->
-		rows = [];
-		for key of @state.errors
-			@state.errors[key].forEach (val) -> 
-				rows.push( React.DOM.p null, "#{ key }: #{ val }" );
-		return rows;
-
 	recordForm: ->
 		React.DOM.tr null,
 			React.DOM.td null,
@@ -100,7 +93,7 @@
 					'Cancel'
 				React.DOM.div
 					className: 'error-msgs'
-					@recordErrors()
+					React.createElement ErrorMessages, key: @props.record.id, data: @state.errors
 
 	render: ->
 		if @state.edit
